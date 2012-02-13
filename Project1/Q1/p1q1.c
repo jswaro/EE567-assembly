@@ -51,6 +51,7 @@ int main()
 		for(jj=0;jj<8;jj++) {
 			sum += x[ ii + jj ]; 
 		}
+		sum /= 8;
 		printf("%d ", sum);
 	}
 	printf("\n");

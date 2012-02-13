@@ -47,16 +47,16 @@ _function1:
 	add bx, ax
 	mov al, byte [esi + 4]
 	cbw
-	add bl, ax
+	add bx, ax
 	mov al, byte [esi + 5]
 	cbw
-	add bl, ax
+	add bx, ax
 	mov al, byte [esi + 6]
 	cbw
-	add bl, ax
+	add bx, ax
 	mov al, byte [esi + 7]
 	cbw
-	add bl, ax
+	add ax, bx
 	
 	
 	mov bx, 08h

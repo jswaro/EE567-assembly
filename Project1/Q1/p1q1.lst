@@ -1,81 +1,73 @@
-     1                                  
-     2                                  ;           p1q1.asm
-     3                                  ;
-     4                                  ;           RUN:      Linux
-     5                                  ;           ASSEMBLE: nasm -l p1q1.lst -f elf p1q1.asm
-     6                                  ;           LINK:     ld -m elf_i386 -o p1q1 p1q1.o
+     1                                  ;           p1q1.asm
+     2                                  ;
+     3                                  ;           RUN:      Linux
+     4                                  ;           ASSEMBLE: nasm -l p1q1.lst -f elf p1q1.asm
+     5                                  ;           LINK:     ld -m elf_i386 -o p1q1 p1q1.o
+     6                                  ;
      7                                  ;
-     8                                  ;
-     9                                  
-    10                                  ; Equivalent statements
-    11                                  
-    12                                  ; Data segment
-    13                                  SECTION .data
-    14                                  
-    15                                  ; Un-initialized data segment
-    16                                  SECTION .bss
-    17                                  
-    18                                  ; Code segment
-    19                                  SECTION .text
-    20                                  GLOBAL _function1
-    21                                  
-    22                                  _function1:
-    23                                  	; Just some random code
-    24                                  
-    25 00000000 55                      	push ebp
-    26 00000001 89E5                    	mov ebp, esp
-    27                                  	
-    28 00000003 8B7508                  	mov esi, [ebp + 8]
-    29 00000006 8B7D0C                  	mov edi, [ebp + 12]
-    30                                  
-    31 00000009 B95D000000              	mov ecx, 0000005Dh ; 93 decimal
-    32 0000000E BA00000000              	mov edx, 00000000h ; 
-    33                                  
-    34                                  .loop:
-    35 00000013 BA00000000              	mov edx, 0h 	; clearing edx/dx/dh/dl register
-    36 00000018 66B80000                	mov ax, 0h
-    37 0000001C 8A06                    	mov al, [esi]
-    38 0000001E 6698                    	cbw 
-    39 00000020 6689C3                  	mov bx, ax
-    40 00000023 8A4601                  	mov al, byte [esi + 1]
-    41 00000026 6698                    	cbw
-    42                                  	add bl, ax
-    43          ******************       error: invalid combination of opcode and operands
-    44 00000028 8A4602                  	mov al, byte [esi + 2]
-    45 0000002B 6698                    	cbw
-    46                                  	add bl, ax
-    47          ******************       error: invalid combination of opcode and operands
-    48 0000002D 8A4603                  	mov al, byte [esi + 3]
-    49 00000030 6698                    	cbw
-    50                                  	add bl, ax
-    51          ******************       error: invalid combination of opcode and operands
-    52 00000032 8A4604                  	mov al, byte [esi + 4]
-    53 00000035 6698                    	cbw
-    54                                  	add bl, ax
-    55          ******************       error: invalid combination of opcode and operands
-    56 00000037 8A4605                  	mov al, byte [esi + 5]
-    57 0000003A 6698                    	cbw
-    58                                  	add bl, ax
-    59          ******************       error: invalid combination of opcode and operands
-    60 0000003C 8A4606                  	mov al, byte [esi + 6]
-    61 0000003F 6698                    	cbw
-    62                                  	add bl, ax
-    63          ******************       error: invalid combination of opcode and operands
-    64 00000041 8A4607                  	mov al, byte [esi + 7]
-    65 00000044 6698                    	cbw
-    66                                  	add bl, ax
-    67          ******************       error: invalid combination of opcode and operands
-    68                                  	
-    69                                  	
-    70 00000046 66BB0800                	mov bx, 08h
-    71 0000004A 66BA0000                	mov dx, 00h
-    72 0000004E 66F7FB                  	idiv bx
-    73 00000051 6689470E                	mov [edi + 14], ax 
-    74 00000055 46                      	inc esi
-    75 00000056 47                      	inc edi 
-    76 00000057 47                      	inc edi
-    77 00000058 E0B9                    	loopnz .loop
-    78                                  
-    79                                  	; Return
-    80 0000005A 5D                      	pop ebp
-    81 0000005B C3                      	ret
+     8                                  
+     9                                  ; Equivalent statements
+    10                                  
+    11                                  ; Data segment
+    12                                  SECTION .data
+    13                                  
+    14                                  ; Un-initialized data segment
+    15                                  SECTION .bss
+    16                                  
+    17                                  ; Code segment
+    18                                  SECTION .text
+    19                                  GLOBAL _function1
+    20                                  
+    21                                  _function1:
+    22                                  	; Just some random code
+    23                                  
+    24 00000000 55                      	push ebp
+    25 00000001 89E5                    	mov ebp, esp
+    26                                  	
+    27 00000003 8B7508                  	mov esi, [ebp + 8]
+    28 00000006 8B7D0C                  	mov edi, [ebp + 12]
+    29                                  
+    30 00000009 B95D000000              	mov ecx, 0000005Dh ; 93 decimal
+    31 0000000E BA00000000              	mov edx, 00000000h ; 
+    32                                  
+    33                                  .loop:
+    34 00000013 BA00000000              	mov edx, 0h 	; clearing edx/dx/dh/dl register
+    35 00000018 66B80000                	mov ax, 0h
+    36 0000001C 8A06                    	mov al, [esi]
+    37 0000001E 6698                    	cbw 
+    38 00000020 6689C3                  	mov bx, ax
+    39 00000023 8A4601                  	mov al, byte [esi + 1]
+    40 00000026 6698                    	cbw
+    41 00000028 6601C3                  	add bx, ax
+    42 0000002B 8A4602                  	mov al, byte [esi + 2]
+    43 0000002E 6698                    	cbw
+    44 00000030 6601C3                  	add bx, ax
+    45 00000033 8A4603                  	mov al, byte [esi + 3]
+    46 00000036 6698                    	cbw
+    47 00000038 6601C3                  	add bx, ax
+    48 0000003B 8A4604                  	mov al, byte [esi + 4]
+    49 0000003E 6698                    	cbw
+    50 00000040 6601C3                  	add bx, ax
+    51 00000043 8A4605                  	mov al, byte [esi + 5]
+    52 00000046 6698                    	cbw
+    53 00000048 6601C3                  	add bx, ax
+    54 0000004B 8A4606                  	mov al, byte [esi + 6]
+    55 0000004E 6698                    	cbw
+    56 00000050 6601C3                  	add bx, ax
+    57 00000053 8A4607                  	mov al, byte [esi + 7]
+    58 00000056 6698                    	cbw
+    59 00000058 6601D8                  	add ax, bx
+    60                                  	
+    61                                  	
+    62 0000005B 66BB0800                	mov bx, 08h
+    63 0000005F 66BA0000                	mov dx, 00h
+    64 00000063 66F7FB                  	idiv bx
+    65 00000066 6689470E                	mov [edi + 14], ax 
+    66 0000006A 46                      	inc esi
+    67 0000006B 47                      	inc edi 
+    68 0000006C 47                      	inc edi
+    69 0000006D E0A4                    	loopnz .loop
+    70                                  
+    71                                  	; Return
+    72 0000006F 5D                      	pop ebp
+    73 00000070 C3                      	ret
