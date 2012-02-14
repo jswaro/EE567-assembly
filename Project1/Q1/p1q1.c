@@ -38,11 +38,20 @@ int main()
 
 	// Print selected results to the screen
 	printf("\nx[0 ... 19] = ");
-        for(ii=0;ii<20;ii++) printf("%d ", x[ii]);
+        for(ii=0;ii<100;ii++) printf("%d ", x[ii]);
 	printf("\n");
 
 	printf("\ny[0 ... 19] = ");
-        for(ii=0;ii<20;ii++) printf("%d ", y[ii]);
+        for(ii=0;ii<100;ii++) printf("%d ", y[ii]);
 	printf("\n");
 
+
+	printf("\nc[0 ... 19] = 0 0 0 0 0 0 0 ");
+	for(jj=0;jj<93;jj++) {
+		int sum = 0;
+		for(ii=0;ii<8;ii++) sum += x[ii + jj];
+		sum /= 8;
+		printf("%d ", sum);
+	}
+	printf("\n");
 }

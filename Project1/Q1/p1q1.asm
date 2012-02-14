@@ -19,53 +19,61 @@ SECTION .text
 GLOBAL _function1
 
 _function1:
-	; Just some random code
-
 	push ebp
 	mov ebp, esp
-	
+
 	mov esi, [ebp + 8]
 	mov edi, [ebp + 12]
 
 	mov ecx, 0000005Dh ; 93 decimal
-	mov edx, 00000000h ; 
 
-.loop:
-	mov edx, 0h 	; clearing edx/dx/dh/dl register
 	mov ax, 0h
 	mov al, [esi]
 	cbw
 	mov bx, ax
+
 	mov al, byte [esi + 1]
 	cbw
 	add bx, ax
+
 	mov al, byte [esi + 2]
 	cbw
 	add bx, ax
+
 	mov al, byte [esi + 3]
 	cbw
 	add bx, ax
+
 	mov al, byte [esi + 4]
 	cbw
 	add bx, ax
+
 	mov al, byte [esi + 5]
 	cbw
 	add bx, ax
+
 	mov al, byte [esi + 6]
 	cbw
 	add bx, ax
+
+.loop:
 	mov al, byte [esi + 7]
 	cbw
 	add ax, bx
-	
-	
+	mov dx, ax
+
 	mov bl, 08h
-	mov dx, 00h
 	idiv bl
 	cbw
-	mov [edi + 14], ax 
+	mov [edi + 14], ax
+
+	mov bx, dx
+	mov al, byte [esi]
+	cbw
+	sub bx, ax
+
 	inc esi
-	inc edi 
+	inc edi
 	inc edi
 	loopnz .loop
 
