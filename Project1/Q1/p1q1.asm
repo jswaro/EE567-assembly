@@ -34,7 +34,7 @@ _function1:
 	mov edx, 0h 	; clearing edx/dx/dh/dl register
 	mov ax, 0h
 	mov al, [esi]
-	cbw 
+	cbw
 	mov bx, ax
 	mov al, byte [esi + 1]
 	cbw
@@ -59,9 +59,10 @@ _function1:
 	add ax, bx
 	
 	
-	mov bx, 08h
+	mov bl, 08h
 	mov dx, 00h
-	idiv bx
+	idiv bl
+	cbw
 	mov [edi + 14], ax 
 	inc esi
 	inc edi 

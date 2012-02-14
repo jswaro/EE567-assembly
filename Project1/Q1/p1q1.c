@@ -45,14 +45,4 @@ int main()
         for(ii=0;ii<20;ii++) printf("%d ", y[ii]);
 	printf("\n");
 
-	printf("\nc[0 ... 19] = 0 0 0 0 0 0 0 ");
-	for(ii=0;ii<13;ii++) {
-		int sum = 0;
-		for(jj=0;jj<8;jj++) {
-			sum += x[ ii + jj ]; 
-		}
-		sum /= 8;
-		printf("%d ", sum);
-	}
-	printf("\n");
 }
