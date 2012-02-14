@@ -12,10 +12,10 @@
 //	EE467/567 - Winter 2012
 
 //#include "stdafx.h"
-#include <conio.h>
+//#include <conio.h>
 #include <stdio.h>
 
-void function1(char *, short *);
+short _function1(short *, short *, short*);
 
 
   int main()
@@ -32,24 +32,28 @@ void function1(char *, short *);
 				60, 63, 37, -7, 0, -36, 19, -22, 59, 29,
 				-11, 32, -29, -7, 56, 24, -36, 44, 17, -46 };
 	short	N[100];
-    short   P[100];
-    short   Z=0;
+    	short   P[100];
+    	short   Z=0;
 
 	int	ii, jj;
 
 	// Insert your functionality here
 
-	_asm
-	{
-
-	}
+	Z = _function1(x, P, N);
 
 	// Print selected results to the screen
 	printf("\nx[0 ... 19] = ");
         for(ii=0;ii<20;ii++) printf("%d ", x[ii]);
 	printf("\n");
 
-	printf("\ny[0 ... 19] = ");
-        for(ii=0;ii<20;ii++) printf("%d ", y[ii]);
+	printf("\nP[0 ... 19] = ");
+        for(ii=0;ii<20;ii++) printf("%d ", P[ii]);
 	printf("\n");
+
+	printf("\nN[0 ... 19] = ");
+        for(ii=0;ii<20;ii++) printf("%d ", N[ii]);
+	printf("\n");
+
+	printf("\nZ = %i", Z);
+
 }
