@@ -7,7 +7,7 @@ files use nasm and gcc for each compilation step.
 
 To create the solution executables:
 -----------------------------------
-make 	#creates all executables
+make build	#creates all executables
 
 
 The make file will call make in each child directory and build the solutions. 
@@ -27,3 +27,8 @@ make test
 cd Q1 && ./p1q1 && cd .. \
 cd Q2 && ./p1q2 && cd .. \
 cd Q3 && ./p1q3 && cd .. 
+
+
+To perform cleanup:
+-----------------------------------
+make clean
