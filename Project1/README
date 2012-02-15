@@ -1,0 +1,29 @@
+# Author : James Swaro
+# Date   : February, 15 2012
+# Project: EE567, Project 1
+
+The project is compiled through the use of the provided makefile. The make
+files use nasm and gcc for each compilation step. 
+
+To create the solution executables:
+-----------------------------------
+make 	#creates all executables
+
+
+The make file will call make in each child directory and build the solutions. 
+
+Each solution executable will be named 'p1q#' where # is the number of the
+question. 
+
+Each solution also broken down into the .c and .asm code for each question. 
+
+
+To run each solution:
+-----------------------------------
+make test 
+
+-- OR --
+
+cd Q1 && ./p1q1 && cd .. \
+cd Q2 && ./p1q2 && cd .. \
+cd Q3 && ./p1q3 && cd .. 

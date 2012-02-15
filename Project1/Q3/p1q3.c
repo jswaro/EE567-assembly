@@ -60,6 +60,7 @@ short sort(short *, short *, short*);
         for(ii=0;ii<20;ii++) printf("%d ", N[ii]);
 	printf("\n");
 
-	printf("\nZ = %i", Z);
+	printf("\nZ = %i\n", Z);
 
+	return 0;
 }
