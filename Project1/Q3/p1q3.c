@@ -2,12 +2,18 @@
 //
 //	Template for Project 1, Problem 3
 //
-//	INSERT THE DESCRIPTION OF YOUR SOLUTION HERE!
+//      My solution was to create an if-like jump struction to
+//        simulate the following behavior in assembly language.
 //
+//      if( x[n] > 0 ) {
+//        P[esi++] = x[n];
+//      } else if(x[n] < 0) {
+//        N[edi++] = x[n];
+//      } else {
+//        Z++;
+//      }
 //
-//
-//
-//
+//      See p1q3.asm
 //
 //	EE467/567 - Winter 2012
 
@@ -15,7 +21,7 @@
 //#include <conio.h>
 #include <stdio.h>
 
-short _function1(short *, short *, short*);
+short sort(short *, short *, short*);
 
 
   int main()
@@ -39,7 +45,7 @@ short _function1(short *, short *, short*);
 
 	// Insert your functionality here
 
-	Z = _function1(x, P, N);
+	Z = sort(x, P, N);
 
 	// Print selected results to the screen
 	printf("\nx[0 ... 19] = ");

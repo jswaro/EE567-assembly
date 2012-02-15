@@ -1,8 +1,8 @@
-;           p1q2.asm
+;           p1q3.asm
 ;
 ;           RUN:      Linux
-;           ASSEMBLE: nasm -l p1q2.lst -f elf p1q2.asm
-;           LINK:     ld -m elf_i386 -o p1q2 p1q2.o
+;           ASSEMBLE: nasm -l p1q3.lst -f elf p1q3.asm
+;           LINK:     ld -m elf_i386 -o p1q3 p1q3.o p1q3.c
 ;
 ;
 
@@ -16,14 +16,14 @@ SECTION .bss
 
 ; Code segment
 SECTION .text
-GLOBAL _function1
+GLOBAL sort
 
-_function1:
+sort:
 	push ebp                 ; store stack base pointer
 	mov ebp, esp             ; move current stack pointer to base pointer 
-	push ebx
-	push ecx
-	push edx
+	push ebx                 ; store current value of ebx on stack
+	push ecx                 ; store current value of ecx on stack
+	push edx                 ; store current value of edx on stack
 
 	mov edx, [ebp + 8]	 ; store the first  argument into edx
 	mov esi, [ebp + 12]      ; store the second argument into esi
@@ -43,36 +43,36 @@ _function1:
 	mov ecx, 64h             ; 100 decimal
 	mov bx, 00h              ; counter for Z
 .loop:
-	mov ax, [edx]
-	cmp ax, 00h
-	jg .ifgreater
-	jl .ifless
-	jmp .ifequal
+	mov ax, [edx]            ; move x[n] into ax
+	cmp ax, 00h              ; compare x[n] with 0
+	jg .ifgreater            ; if x[n] > 0, goto .ifgreater
+	jl .ifless               ; if x[n] < 0, goto .ifless
+	jmp .ifequal             ; otherwise, goto .ifequal
 
 .ifgreater:
-	mov [esi], ax
-	add esi, 02h
-	jmp .endif
+	mov [esi], ax            ; place x[n] into P[n']
+	add esi, 02h             ; move n' to the next element
+	jmp .endif               ; move to end of if statement
 
 .ifless:
-	mov [edi], ax
-	add edi, 02h
-	jmp .endif
+	mov [edi], ax            ; place x[n] into N[n']
+	add edi, 02h             ; move n' to the next element
+	jmp .endif               ; move to end of if statement
 
 .ifequal:
-	inc bx
+	inc bx                   ; increment Z
 
 .endif:
-	add edx, 02h
-	loopnz .loop
+	add edx, 02h             ; move to next element of x
+	loopnz .loop             ; continue while there are more elements
 
 .end:
-	mov ax, bx
-	cwde
+	mov ax, bx               ; store Z into ax
+	cwde                     ; expand Z into dword
 
 	; Return
-	pop edx
-	pop ecx
-	pop ebx
-	pop ebp
-	ret
+	pop edx                  ; restore value of edx from stack
+	pop ecx                  ; restore value of ecx from stack
+	pop ebx                  ; restore value of ebx from stack
+	pop ebp                  ; restore stack base pointer from stack
+	ret                      ; return Z in eax

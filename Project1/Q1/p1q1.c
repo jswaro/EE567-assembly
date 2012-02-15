@@ -2,18 +2,17 @@
 //
 //	Template for Project 1, Problem 1
 //
-//	INSERT THE DESCRIPTION OF YOUR SOLUTION HERE!
-//
-//
-//
-//
-//
+//      The concept behind my solution is to store the sum of
+//        the first 8 numbers as a rolling sum and only subtract
+//        x[n-7] from each sum and add x[n+1] to the next sum in
+//        order to minimize the number of times we go back into
+//        memory to search for values. See p1q1.asm
 //
 //	EE467/567 - Winter 2012
 
 #include <stdio.h>
 
-void _function1(char *, short *);
+void filter(char *, short *);
 
 int main()
 {
@@ -34,24 +33,14 @@ int main()
 
 	// Insert your functionality here
 
-	_function1(x, y);
+	filter(x, y);
 
 	// Print selected results to the screen
 	printf("\nx[0 ... 19] = ");
-        for(ii=0;ii<100;ii++) printf("%d ", x[ii]);
+        for(ii=0;ii<20;ii++) printf("%d ", x[ii]);
 	printf("\n");
 
 	printf("\ny[0 ... 19] = ");
-        for(ii=0;ii<100;ii++) printf("%d ", y[ii]);
-	printf("\n");
-
-
-	printf("\nc[0 ... 19] = 0 0 0 0 0 0 0 ");
-	for(jj=0;jj<93;jj++) {
-		int sum = 0;
-		for(ii=0;ii<8;ii++) sum += x[ii + jj];
-		sum /= 8;
-		printf("%d ", sum);
-	}
+        for(ii=0;ii<20;ii++) printf("%d ", y[ii]);
 	printf("\n");
 }

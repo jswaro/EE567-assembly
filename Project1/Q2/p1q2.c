@@ -2,12 +2,11 @@
 //
 //	Template for Project 1, Problem 2
 //
-//	INSERT THE DESCRIPTION OF YOUR SOLUTION HERE!
-//
-//
-//
-//
-//
+//      The concept behind my solution is to store the sum of
+//        the first 8 numbers as a rolling sum and only subtract
+//        x[n-7] from each sum and add x[n+1] to the next sum in
+//        order to minimize the number of times we go back into
+//        memory to search for values. See p1q2.asm
 //
 //	EE467/567 - Winter 2012
 
@@ -15,7 +14,7 @@
 //#include <conio.h>
 #include <stdio.h>
 
-void _function1(float *, float *);
+void filterFloat(float *, float *);
 
 
   int main()
@@ -37,7 +36,7 @@ void _function1(float *, float *);
 
 	// Insert your functionality here
 
-	_function1(x,y);
+	filterFloat(x,y);
 
 	// Print selected results to the screen
 	printf("\nx[0 ... 19] = ");
@@ -47,6 +46,5 @@ void _function1(float *, float *);
 	printf("\ny[0 ... 19] = ");
         for(ii=0;ii<20;ii++) printf("%f ", y[ii]);
 	printf("\n");
-
 }
 
