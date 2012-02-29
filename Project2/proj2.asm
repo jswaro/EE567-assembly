@@ -13,69 +13,125 @@ SECTION .data
 
 ; Un-initialized data segment
 SECTION .bss
+total: resq 4
 
 ; Code segment
 SECTION .text
-GLOBAL filter
+GLOBAL calculateHCValues
 
-filter:
-	push ebp               ; pushing stack base onto the stack
-	mov ebp, esp           ; moving stack pointer onto stack base
+calculateHCValues:
+	push ebp                 ; store stack base pointer
+	mov ebp, esp             ; move current stack pointer to base pointer
+	push ebx                 ; store current value of ebx on stack
+	push ecx                 ; store current value of ecx on stack
+	push edx                 ; store current value of edx on stack
+        push edi                 ; store current value of edi on stack
+        push esi                 ; store current value of esi on stack
+        push eax                 ; store current value of eax on stack
 
-	mov esi, [ebp + 8]     ; moving first argument into esi
-	mov edi, [ebp + 12]    ; moving second argument into edi
+	mov edx, [ebp + 8]	 ; store the first  argument into edx
+	mov esi, [ebp + 12]      ; store the second argument into esi
+	mov edi, [ebp + 16]      ; store the third  argument into edi
+        mov eax, [ebp + 20]      ; store the fourth argument into eax
+        mov ebx, [ebp + 24]      ; store the fifth  argument into ebx
 
-	mov ecx, 0000005Dh     ; 93 decimal
+	mov [total], dword 00h
+	mov [total + 4], dword 00h
+	mov [total + 8], dword 00h
+	mov [total + 12], dword 00h
 
-	mov ax, 0h             ; clearing ax
-	mov al, [esi]          ; move the contents of x[n-7] into al
-	cbw                    ; convert byte to word
-	mov bx, ax             ; move the word value of x[n-7] into bx
+	mov ecx, 255             ; 
+        movups xmm0, [edx]       ; move x values
+        movups xmm1, [esi]       ; move y values
+        movaps xmm3, xmm0        ; sum of x_i
+        movaps xmm4, xmm1        ; sum of y_i
 
-	mov al, byte [esi + 1] ; move the contents of x[n-6] into al
-	cbw                    ; convert byte to word
-	add bx, ax             ; add x[n-7] and x[n-6], saving it into bx
+        movaps xmm2, xmm1        ; mov y values into working register
+        mulps xmm2, xmm0         ; multiply x_i by y_i
+        movaps xmm5, xmm2        ; store result
 
-	mov al, byte [esi + 2] ; move the contents of x[n-5] into al
-	cbw                    ; convert byte to word
-	add bx, ax             ; add sum and x[n-5], saving it into bx
+        movaps xmm2, xmm0        ; mov x values into working register
+        mulps xmm2, xmm0         ; square x_i
+        movaps xmm6, xmm2        ; store result
 
-	mov al, byte [esi + 3] ; move the contents of x[n-4] into al
-	cbw                    ; convert byte to word
-	add bx, ax             ; add sum and x[n-4], saving it into bx
+        movaps xmm2, xmm1        ; mov y values into working regisrer
+        mulps xmm2, xmm1         ; square y_i
+        movaps xmm7, xmm2        ; store result
+        add edx, 10h
+        add esi, 10h
+.firstloop:
+        movups xmm0, [edx]       ; move x values
+        movups xmm1, [esi]       ; move y values
 
-	mov al, byte [esi + 4] ; move the contents of x[n-3] into al
-	cbw                    ; convert byte to word
-	add bx, ax             ; add sum and x[n-3], saving it into bx
+        addps xmm3, xmm0         ; sum of x_i
 
-	mov al, byte [esi + 5] ; move the contents of x[n-2] into al
-	cbw                    ; convert byte to word
-	add bx, ax             ; add sum and x[n-2], saving it into bx
+        addps xmm4, xmm1         ; sum of y_i
 
-	mov al, byte [esi + 6] ; move the contents of x[n-1] into al
-	cbw                    ; convert byte to word
-	add bx, ax             ; add sum and x[n-1], saving it into bx
+        movaps xmm2, xmm1        ; mov y values into working register
+        mulps xmm2, xmm0         ; multiply x_i by y_i
+        addps xmm5, xmm2         ; store result
 
-.loop:
-	mov al, byte [esi + 7] ; move the contents of x[n] into al
-	cbw                    ; convert byte to word
-	add ax, bx             ; add sum and x[n], saving it into ax
-	mov dx, ax             ; save sum in dx
+        movaps xmm2, xmm0        ; mov x values into working register
+        mulps xmm2, xmm0         ; square x_i
+        addps xmm6, xmm2         ; store result
 
-	mov bl, 08h            ; move 8 into bl
-	idiv bl                ; divide the sum by 8
-	cbw                    ; byte extend the result
-	mov [edi + 14], ax     ; store result in y[n]
+        movaps xmm2, xmm1        ; mov y values into working regisrer
+        mulps xmm2, xmm1         ; square y_i
+        addps xmm7, xmm2         ; store result
+        add edx, 10h             ; move to next 4 values
+        add esi, 10h             ; move to next 4 values
+        loopnz .firstloop        ; continue while data left
 
-	mov bx, dx             ; move sum into bx
-	mov al, byte [esi]     ; move x[n-7] into al
-	cbw                    ; convert byte to word
-	sub bx, ax             ; subtract the [n-7] from the sum
+	mov edx, [ebp + 8]       ; restore x initial position
+	mov esi, [ebp + 12]      ; restore y initial position
 
-	inc esi                ; move to the next element of x
-	add edi, 02h           ; move to the next element of y
-	loopnz .loop           ; while not finished, loop back
+        ;time to sum the sums of the data
+	movups [total] , xmm3
+	call sum
+	mov eax, [total]
+	mov [ebx], eax
+
+	movups [total], xmm4
+	call sum
+	mov eax, [total]
+	mov [ebx + 4], eax
+
+	mov eax, [ebp + 20]
+
+	movups [total], xmm5
+	call sum
+	mov ebx, [total]
+	mov [eax], ebx
+
+	movups [total], xmm6
+	call sum
+	mov ebx, [total]
+	mov [eax + 12], ebx
+
+	movups [total], xmm7
+	call sum
+	mov dword ebx, [total]
+	mov dword [eax + 4], ebx
+
+	mov ebx, [ebp + 24]
+
+	
 
 	; Return
-	pop ebp                ; restore base pointer
-	ret                    ; return
+        pop eax
+        pop esi
+        pop edi
+	pop edx                  ; restore value of edx from stack
+	pop ecx                  ; restore value of ecx from stack
+	pop ebx                  ; restore value of ebx from stack
+	pop ebp                  ; restore stack base pointer from stack
+	ret                      ; return Z in eax
+
+
+sum:
+	fld  dword [total]
+	fadd dword [total + 4]
+	fadd dword [total + 8]
+	fadd dword [total + 12]
+	fstp  dword [total]
+	ret
