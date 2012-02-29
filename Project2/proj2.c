@@ -5,7 +5,14 @@
 ----------------------------------------------------------- */
 
 #include <stdio.h>
+#include <stdlib.h>
 
+//Uncomment this line if compiling on windows.
+//#include <conio.h>
+//#define WINDOWS
+
+
+void calculateHCValues(float *x, float *y, float *z);
 
 int main( void )
 {
@@ -41,9 +48,7 @@ int main( void )
 	//	Insert your inline assembly code here to calculate
 	//	the Hvalues and Cvalues
 	// ------------------------------------------------------
-	_asm
-	{
-	}
+	
 
 	// ------------------------------------------------------
 	//	To follow are the calculation of the values using C
@@ -71,7 +76,9 @@ int main( void )
 	printf("\nCvalues from the Inline Assembly:\n");
 	for(ii=0;ii<3;ii++) printf("%f\n", Cvalues[ii]);
 
-	getch();
+#ifdef WINDOWS
+        getch();
+#endif
 
 	return 0;
 }
