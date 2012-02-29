@@ -5,6 +5,11 @@
 The project is compiled through the use of the provided makefile. The make
 files use nasm and gcc for each compilation step. 
 
+To build, test AND clean:
+----------------------------------
+make 
+
+
 To create the solution executables:
 -----------------------------------
 make build	#creates all executables
@@ -32,3 +37,7 @@ cd Q3 && ./p1q3 && cd ..
 To perform cleanup:
 -----------------------------------
 make clean
+
+
+Note: 
+'make' without any arguments will perform all three steps at once. 
