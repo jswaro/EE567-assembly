@@ -40,7 +40,31 @@ calculateHCValues:
     mov [total + 8], dword 00h
     mov [total + 12], dword 00h
 
-    mov ecx, 255             ; 
+    call firstloop
+
+    call secondloop
+    
+    ; Return
+    pop eax
+    pop esi
+    pop edi
+    pop edx                  ; restore value of edx from stack
+    pop ecx                  ; restore value of ecx from stack
+    pop ebx                  ; restore value of ebx from stack
+    pop ebp                  ; restore stack base pointer from stack
+    ret                      ; return Z in eax
+
+
+sum:
+	fld  dword [total]
+	fadd dword [total + 4]
+	fadd dword [total + 8]
+	fadd dword [total + 12]
+	fstp  dword [total]
+	ret
+
+firstloop:
+    mov ecx, 255             ;
     movups xmm0, [edx]       ; move x values
     movups xmm1, [esi]       ; move y values
     movaps xmm3, xmm0        ; sum of x_i
@@ -111,11 +135,13 @@ calculateHCValues:
 
     movups [total], xmm7
     call sum
-    mov dword ebx, [total]
-    mov dword [eax + 12], ebx
+    mov ebx, [total]
+    mov [eax + 12], ebx
 
     mov ebx, [ebp + 24]
+    ret
 
+secondloop:
     ; start of second run through
 
     mov ecx, 255             ; 255 decimal
@@ -188,27 +214,8 @@ calculateHCValues:
 
     movups [total], xmm7
     call sum
-    mov dword ebx, [total]
-    mov dword [eax + 16], ebx
+    mov ebx, [total]
+    mov [eax + 16], ebx
 
     mov ebx, [ebp + 24]
-
-    ; Return
-    pop eax
-    pop esi
-    pop edi
-	pop edx                  ; restore value of edx from stack
-	pop ecx                  ; restore value of ecx from stack
-	pop ebx                  ; restore value of ebx from stack
-	pop ebp                  ; restore stack base pointer from stack
-	ret                      ; return Z in eax
-
-
-sum:
-	fld  dword [total]
-	fadd dword [total + 4]
-	fadd dword [total + 8]
-	fadd dword [total + 12]
-	fstp  dword [total]
-	ret
-
+    ret

@@ -44,8 +44,8 @@ filterFloat:
 	fadd dword [esi + 28]    ; add sum and x[n]
 	fld ST0                  ; duplicate sum on the stack
 
-	fild dword [x]           ; move the integer '8' into stack
-	fdivp                    ; divide duplicate sum by 8 and pop 8
+	;fild dword [x]           ; move the integer '8' into stack
+	fidiv dword [x]                   ; divide duplicate sum by 8 and pop 8
                                  ;   off the stack
 	fstp dword [edi + 28]    ; store result of division into y[n] and 
                                  ;   pop result
