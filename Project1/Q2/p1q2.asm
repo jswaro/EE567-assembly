@@ -4,7 +4,7 @@
 ;           ASSEMBLE: nasm -l p1q2.lst -f elf p1q2.asm
 ;           LINK:     ld -m elf_i386 -o p1q2 p1q2.o
 ;
-;
+;           Author: James Swaro
 
 ; Equivalent statements
 

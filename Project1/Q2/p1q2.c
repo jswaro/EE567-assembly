@@ -46,5 +46,7 @@ void filterFloat(float *, float *);
 	printf("\ny[0 ... 19] = ");
         for(ii=0;ii<20;ii++) printf("%f ", y[ii]);
 	printf("\n");
+
+	return 0;
 }
 
