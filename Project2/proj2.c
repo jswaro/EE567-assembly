@@ -12,7 +12,7 @@
 //#define WINDOWS
 
 
-void calculateHCValues(float *x, float *y, float *z);
+void calculateHCValues(float *x, float *y, float *z, float *h, float *c);
 
 int main( void )
 {
@@ -24,7 +24,9 @@ int main( void )
 	float	Cvalues[3] = {0.0};	
 	float   csum[3]= {0, 0, 0};
 	float   hprod[6]= {0, 0, 0, 0, 0, 0};
-	
+
+
+        printf("%x \n %x \n",x, y);
 	//
 	// Retrieve the variables from the input file
 	//
@@ -48,7 +50,7 @@ int main( void )
 	//	Insert your inline assembly code here to calculate
 	//	the Hvalues and Cvalues
 	// ------------------------------------------------------
-	
+        calculateHCValues(x,y,z,Hvalues,Cvalues);
 
 	// ------------------------------------------------------
 	//	To follow are the calculation of the values using C
