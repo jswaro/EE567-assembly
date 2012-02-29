@@ -13,6 +13,7 @@ SECTION .data
 
 ; Un-initialized data segment
 SECTION .bss
+total: resq 4
 
 ; Code segment
 SECTION .text
@@ -34,7 +35,12 @@ calculateHCValues:
         mov eax, [ebp + 20]      ; store the fourth argument into eax
         mov ebx, [ebp + 24]      ; store the fifth  argument into ebx
 
-	mov ecx, 3Fh             ; 63 decimal
+	mov [total], dword 00h
+	mov [total + 4], dword 00h
+	mov [total + 8], dword 00h
+	mov [total + 12], dword 00h
+
+	mov ecx, 255             ; 
         movups xmm0, [edx]       ; move x values
         movups xmm1, [esi]       ; move y values
         movaps xmm3, xmm0        ; sum of x_i
@@ -72,14 +78,45 @@ calculateHCValues:
         movaps xmm2, xmm1        ; mov y values into working regisrer
         mulps xmm2, xmm1         ; square y_i
         addps xmm7, xmm2         ; store result
-        add edx, 10h
-        add esi, 10h
-        loopnz .firstloop
+        add edx, 10h             ; move to next 4 values
+        add esi, 10h             ; move to next 4 values
+        loopnz .firstloop        ; continue while data left
+
+	mov edx, [ebp + 8]       ; restore x initial position
+	mov esi, [ebp + 12]      ; restore y initial position
 
         ;time to sum the sums of the data
-        
+	movups [total] , xmm3
+	call sum
+	mov eax, [total]
+	mov [ebx], eax
 
-        
+	movups [total], xmm4
+	call sum
+	mov eax, [total]
+	mov [ebx + 4], eax
+
+	mov eax, [ebp + 20]
+
+	movups [total], xmm5
+	call sum
+	mov ebx, [total]
+	mov [eax], ebx
+
+	movups [total], xmm6
+	call sum
+	mov ebx, [total]
+	mov [eax + 12], ebx
+
+	movups [total], xmm7
+	call sum
+	mov dword ebx, [total]
+	mov dword [eax + 4], ebx
+
+	mov ebx, [ebp + 24]
+
+	
+
 	; Return
         pop eax
         pop esi
@@ -89,3 +126,12 @@ calculateHCValues:
 	pop ebx                  ; restore value of ebx from stack
 	pop ebp                  ; restore stack base pointer from stack
 	ret                      ; return Z in eax
+
+
+sum:
+	fld  dword [total]
+	fadd dword [total + 4]
+	fadd dword [total + 8]
+	fadd dword [total + 12]
+	fstp  dword [total]
+	ret

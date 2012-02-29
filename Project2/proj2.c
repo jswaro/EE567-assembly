@@ -26,7 +26,6 @@ int main( void )
 	float   hprod[6]= {0, 0, 0, 0, 0, 0};
 
 
-        printf("%x \n %x \n",x, y);
 	//
 	// Retrieve the variables from the input file
 	//
