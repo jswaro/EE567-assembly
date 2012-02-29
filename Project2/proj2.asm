@@ -20,27 +20,27 @@ SECTION .text
 GLOBAL calculateHCValues
 
 calculateHCValues:
-	push ebp                 ; store stack base pointer
-	mov ebp, esp             ; move current stack pointer to base pointer
-	push ebx                 ; store current value of ebx on stack
-	push ecx                 ; store current value of ecx on stack
-	push edx                 ; store current value of edx on stack
+    push ebp                 ; store stack base pointer
+    mov ebp, esp             ; move current stack pointer to base pointer
+    push ebx                 ; store current value of ebx on stack
+    push ecx                 ; store current value of ecx on stack
+    push edx                 ; store current value of edx on stack
     push edi                 ; store current value of edi on stack
     push esi                 ; store current value of esi on stack
     push eax                 ; store current value of eax on stack
 
-	mov edx, [ebp + 8]	     ; store the first  argument into edx
-	mov esi, [ebp + 12]      ; store the second argument into esi
-	mov edi, [ebp + 16]      ; store the third  argument into edi
+    mov edx, [ebp + 8]	     ; store the first  argument into edx
+    mov esi, [ebp + 12]      ; store the second argument into esi
+    mov edi, [ebp + 16]      ; store the third  argument into edi
     mov eax, [ebp + 20]      ; store the fourth argument into eax
     mov ebx, [ebp + 24]      ; store the fifth  argument into ebx
 
-	mov [total], dword 00h
-	mov [total + 4], dword 00h
-	mov [total + 8], dword 00h
-	mov [total + 12], dword 00h
+    mov [total], dword 00h
+    mov [total + 4], dword 00h
+    mov [total + 8], dword 00h
+    mov [total + 12], dword 00h
 
-	mov ecx, 255             ; 
+    mov ecx, 255             ; 
     movups xmm0, [edx]       ; move x values
     movups xmm1, [esi]       ; move y values
     movaps xmm3, xmm0        ; sum of x_i
@@ -83,38 +83,38 @@ calculateHCValues:
     add esi, 10h             ; move to next 4 values
     loopnz .firstloop        ; continue while data left
 
-	mov edx, [ebp + 8]       ; restore x initial position
-	mov esi, [ebp + 12]      ; restore y initial position
+    mov edx, [ebp + 8]       ; restore x initial position
+    mov esi, [ebp + 12]      ; restore y initial position
 
     ;time to sum the sums of the data
-	movups [total] , xmm3
-	call sum
-	mov eax, [total]
-	mov [ebx], eax
+    movups [total] , xmm3
+    call sum
+    mov eax, [total]
+    mov [ebx], eax
 
-	movups [total], xmm4
-	call sum
-	mov eax, [total]
-	mov [ebx + 4], eax
+    movups [total], xmm4
+    call sum
+    mov eax, [total]
+    mov [ebx + 4], eax
 
-	mov eax, [ebp + 20]
+    mov eax, [ebp + 20]
 
-	movups [total], xmm5
-	call sum
-	mov ebx, [total]
-	mov [eax], ebx
+    movups [total], xmm5
+    call sum
+    mov ebx, [total]
+    mov [eax + 4], ebx
 
-	movups [total], xmm6
-	call sum
-	mov ebx, [total]
-	mov [eax + 12], ebx
+    movups [total], xmm6
+    call sum
+    mov ebx, [total]
+    mov [eax], ebx
 
-	movups [total], xmm7
-	call sum
-	mov dword ebx, [total]
-	mov dword [eax + 4], ebx
+    movups [total], xmm7
+    call sum
+    mov dword ebx, [total]
+    mov dword [eax + 12], ebx
 
-	mov ebx, [ebp + 24]
+    mov ebx, [ebp + 24]
 
     ; start of second run through
 
@@ -164,36 +164,36 @@ calculateHCValues:
     add edi, 10h             ; move to next 4 values
     loopnz .secondloop       ; continue while data left
 
-	mov edx, [ebp + 8]       ; restore x initial position
-	mov esi, [ebp + 12]      ; restore y initial position
+    mov edx, [ebp + 8]       ; restore x initial position
+    mov esi, [ebp + 12]      ; restore y initial position
     mov edi, [ebp + 16]      ; restore z initial position
 
     ;time to sum the sums of the data
-	movups [total] , xmm4
-	call sum
-	mov eax, [total]
-	mov [ebx + 8], eax
+    movups [total] , xmm4
+    call sum
+    mov eax, [total]
+    mov [ebx + 8], eax
 
-	mov eax, [ebp + 20]
+    mov eax, [ebp + 20]
 
-	movups [total], xmm5
-	call sum
-	mov ebx, [total]
-	mov [eax + 8], ebx
+    movups [total], xmm5
+    call sum
+    mov ebx, [total]
+    mov [eax + 8], ebx
 
-	movups [total], xmm6
-	call sum
-	mov ebx, [total]
-	mov [eax + 20], ebx
+    movups [total], xmm6
+    call sum
+    mov ebx, [total]
+    mov [eax + 20], ebx
 
-	movups [total], xmm7
-	call sum
-	mov dword ebx, [total]
-	mov dword [eax + 16], ebx
+    movups [total], xmm7
+    call sum
+    mov dword ebx, [total]
+    mov dword [eax + 16], ebx
 
-	mov ebx, [ebp + 24]
-	
-	; Return
+    mov ebx, [ebp + 24]
+
+    ; Return
     pop eax
     pop esi
     pop edi
