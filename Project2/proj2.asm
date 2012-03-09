@@ -13,6 +13,8 @@ SECTION .data
 
 ; Un-initialized data segment
 SECTION .bss
+align 16
+
 total: resq 4
 
 ; Code segment
@@ -56,12 +58,12 @@ calculateHCValues:
 
 
 sum:
-	fld  dword [total]
-	fadd dword [total + 4]
-	fadd dword [total + 8]
-	fadd dword [total + 12]
-	fstp  dword [total]
-	ret
+    fld  dword [total]
+    fadd dword [total + 4]
+    fadd dword [total + 8]
+    fadd dword [total + 12]
+    fstp  dword [total]
+    ret
 
 firstloop:
     mov ecx, 255             ;
@@ -219,3 +221,41 @@ secondloop:
 
     mov ebx, [ebp + 24]
     ret
+
+beginalign:
+   ; This function assumes the address to be aligned is in eax
+   ; This will only work for 32-bit addresses
+    push edx             ; save state of edx
+    push ecx             ; save state of ecx
+    push ebx             ; save state of ebx
+    mov edx, eax         ; move the address into edx
+    and edx, 0fffffff0h  ; find the 16 byte boundary for the address
+    mov ebx, edx         ; save 16-byte aligned address
+    add ebx, 10h         ; move to next boundary
+    and eax, 0fh         ; find the last 4 bits
+    mov cx, 04h          ;
+    idiv cx              ; find out how many segments exist in the aligned segment
+
+    mov ecx, 04h         ; 4 elements per 16 byte boundary
+    sub ecx, eax         ; find out how many elements in xmm2 must be zero'd out
+
+    movaps xmm2, [edx]   ; load values from memory
+    movaps [total], xmm2 ; load values to fake xmm register
+    xorps xmm2, xmm2     ; clear register
+
+    mov edx, 0
+    movaps [total], xmm2 ; load the fake xmm working register
+    mov eax, total
+.loop:
+    mov dword [eax], 00h
+    add eax, 04h
+    loopnz .loop         ; continue while there are more elements to zero out
+
+    mov eax, ebx         ; move the beginning address for the loop into eax
+
+    pop ebx              ; restore state of ebx
+    pop ecx              ; restore state of ecx
+    pop edx              ; restore state of edx
+    ret                  ; return the beginning address
+
+

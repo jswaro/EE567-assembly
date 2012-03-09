@@ -25,6 +25,7 @@ int main( void )
 	float   csum[3]= {0, 0, 0};
 	float   hprod[6]= {0, 0, 0, 0, 0, 0};
 
+	printf("%X %X %X\n", x, y ,z);
 
 	//
 	// Retrieve the variables from the input file
@@ -57,7 +58,7 @@ int main( void )
 	for(ii=0;ii<1024;ii++) csum[0] = csum[0] + x[ii];
 	for(ii=0;ii<1024;ii++) csum[1] = csum[1] + y[ii];
 	for(ii=0;ii<1024;ii++) csum[2] = csum[2] + z[ii];
-	
+
 	//calculate h values
 	for(ii=0;ii<1024;ii++) hprod[0] = hprod[0] + x[ii]*x[ii];
 	for(ii=0;ii<1024;ii++) hprod[1] = hprod[1] + x[ii]*y[ii];
@@ -65,8 +66,7 @@ int main( void )
 	for(ii=0;ii<1024;ii++) hprod[3] = hprod[3] + y[ii]*y[ii];
 	for(ii=0;ii<1024;ii++) hprod[4] = hprod[4] + y[ii]*z[ii];
 	for(ii=0;ii<1024;ii++) hprod[5] = hprod[5] + z[ii]*z[ii];
-	
-	
+
 	//print all results
 	printf("\nHvalues from C:\n");
 	for(ii=0;ii<6;ii++) printf("%f\n", hprod[ii]);
