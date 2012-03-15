@@ -25,8 +25,6 @@ int main( void )
 	float   csum[3]= {0, 0, 0};
 	float   hprod[6]= {0, 0, 0, 0, 0, 0};
 
-	printf("%X %X %X\n", x, y ,z);
-
 	//
 	// Retrieve the variables from the input file
 	//
