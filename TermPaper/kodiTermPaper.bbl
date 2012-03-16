@@ -21,6 +21,14 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{intelQPIintro}
+\BIBentryALTinterwordspacing
+Intel, ``An introduction to the intel quickpath interconnect,'' no.
+  320412-001US, 1999. [Online]. Available:
+  \url{\\http://www.intel.com/content/dam/doc/white-paper/quick-path-interconn%
+ect-introduction-paper.pdf}
+\BIBentrySTDinterwordspacing
+
 \bibitem{htWhitePaper}
 H.~Consortium \emph{et~al.}, ``Hypertransport technology i/o link-white
   paper,'' 2001.
@@ -54,5 +62,11 @@ D.~Mayhew and V.~Krishnan, ``Pci express and advanced switching: evolutionary
 A.~Bhatt, ``Creating a third generation i/o interconnect,''
   \emph{Intel{\textregistered} Developer Network for PCI Express* Architecture,
   www. express-lane. org}, pp. 1--11, 2003.
+
+\bibitem{gray2007co}
+C.~Gray, O.~Liboiron-Ladouceur, D.~Keezer, and K.~Bergman, ``Co-development of
+  test electronics and pci express interface for a multi-gbps optical switching
+  network,'' in \emph{Test Conference, 2007. ITC 2007. IEEE
+  International}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2007, pp. 1--9.
 
 \end{thebibliography}
