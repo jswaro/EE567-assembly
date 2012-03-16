@@ -135,7 +135,7 @@
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
 \title{An Analysis of Highspeed Interconnect Technology: Quickpath
-Interconnect, PCI Express and HyperTransport}
+Interconnect, PCI-Express and HyperTransport}
 
 
 % author names and affiliations
@@ -159,7 +159,7 @@ This paper serves to evaluate Quickpath Interconnect, HyperTransport and PCI
 Express as highspeed interconnect technologies. A comparison will be made,
 highlighting the advantages and disadvantages of each technology. Quickpath
 Interconnect is a proprietary technology developed by Intel to increase the
-available bandwidth between the CPU and the north bridge. PCI Express is
+available bandwidth between the CPU and the north bridge. PCI-Express is
 technology managed by PCISIG that serves as a replacement for PCI and PCI-X,
 while also attempting to be a consumer grade highspeed motherboard--level
 interconnect. HyperTransport is an interconnect technology designed by AMD
@@ -207,7 +207,8 @@ southbridge is responsible for communicating with slower I/O devices and the
 north bridge. However, in high performance computing, it can be easy to find
 that the bandwidth required to perform certain tasks can exceed that of the
 available bandwidth. This is where it is often necessary to look at faster
-interconnect technologies such as HyperTransport, QPI or PCI Express. 
+interconnect technologies such as HyperTransport, QPI or PCI-Express. 
+
 Each technology addresses the need for faster I/O with the CPU in a different
 way. The way in which this is done can vary greatly with each technology and
 with differing results. This paper will address the differences between each
@@ -244,6 +245,19 @@ point-to-point links for bi-directional traffic, up to speeds of 51.2GB/s
 bidirectional. A set of HyperTransport links can be seen in Figure
 \ref{fig:htLinks}. 
 
+\begin{figure}[!t]
+	\begin{center}
+		\includegraphics[scale=.35]{htLinks}
+	\end{center}
+	\caption{
+	 The HyperTransport Link consists of at least one host (often a
+	 HyperTransport-enabled CPU) and one tunnel/endpoint. A tunnel enables the
+	 HyperTransport link to be passed from one HyperTransport-enabled device to
+	 another in daisy-chain fashion.
+	\cite{htWhitePaper}\label{fig:htLinks}}
+	\label{fig:ht:packet}
+\end{figure}
+
 HyperTransport is also a very low latency protocol with a very high bandwith
 capability. It is achieved by the following:\cite{duato2009extending}
 
@@ -253,9 +267,9 @@ capability. It is achieved by the following:\cite{duato2009extending}
   \item Reducing crosstalk and interference
 \end{itemize}
 
-HyperTransport is however primarily a host-to-host or host-to-I/O protocol. It
-does not see that same benefits as it is expanded to larger scale
-environments. HyperTransport interconnects can function as a replacement of the
+HyperTransport is however primarily a host-to-host or host-to-I/O protocol.
+This can be observed in Figure \ref{fig:ht:diagram}. It does not see that same
+benefits as it is expanded to larger scale environments. HyperTransport interconnects can function as a replacement of the
 northbridge,  a multiprocessor interconnect or a switch bus. 
 HyperTransport has four different protocol versions. HT protocol 1.x and 2.0
 are clock-forwarded interface types. The links are considered to be
@@ -263,6 +277,7 @@ uni-directional reliable links, operating at a clock speed of 200 Mhz to 3.2Mhz(
 HyperTransport 3.0 and up is not considered to be reliable due to the use of
 data recovery techniques.\cite{holden2006latency}. However, it can be shown that
 the rate of bit errors is low. 
+
 HyperTransport was designed to be an extremely low latency protocol. With this
 in mind, the designers created HyperTransport in such a way as to minimize the
 latency within the physical, data link and transaction layer. This is due to
@@ -271,52 +286,172 @@ skew-constrained PCB.
 
 \begin{figure}[!t]
 	\begin{center}
-		\includegraphics[scale=.35]{htLinks}
+		\includegraphics[scale=.15]{htDiagram}
 	\end{center}
-	\begin{caption}{
-	 The HyperTransport Link consists of at least one host (often a
-	 HyperTransport-enabled CPU) and one tunnel/endpoint. A tunnel enables the
-	 HyperTransport link to be passed from one HyperTransport-enabled device to
-	 another in daisy-chain fashion.
-	\cite{htWhitePaper}\label{fig:htLinks}}
-	\end{caption}
-	
+	\caption{point-to-point visualization of a
+	HyperTransport link.\cite{holden2006latency}.}
+	\label{fig:ht:diagram}
 \end{figure}
 
 \subsection{How does it operate?}
 \label{subsec:ht:oper}
+
+
 HyperTransport is often connected directly to the CPU. It serves as a bridge
 between highspeed I/O devices and the CPU providing a high bandwidth channel for
 multiple devices to use to communicate. Each devices is connected to the HT bus
-through a daisy chain. Up to 32 devices to be connected to any single daisy
-chain. The daisy chain operates by allowing a device to take up a set of lines,
+through a daisy chain. Up to thirty-two devices to be connected to any single
+daisy chain. The daisy chain operates by allowing a device to take up a set of lines,
 of which do not have to match the number of lines taken by other devices. For
-example, a single I/O devices connected to the HT unit, can utilize 2 lines,
-while another device can use 8. 
+example, a single I/O devices connected to the HT unit, can utilize two lines,
+while another device can use eight. 
+
 The HT protocol maintains the high speed by eliminating overhead from packets
-transfered. The read packets of a HT link only have an overhead of 8 bytes while
-the write packets have an overhead of 12 bytes. This minimal amount of bytes
-reserved for overhead results in a large boost in performance. 
+transfered. The read packets of a HT link only have an overhead of eight bytes
+while the write packets have an overhead of twelve bytes. This minimal amount of
+bytes reserved for overhead results in a large boost in performance. This can be
+observed in Figure \ref{fig:ht:packet}.
+
+\begin{figure}[!t]
+	\begin{center}
+		\includegraphics[scale=.2]{htPacket}
+	\end{center}
+	\caption{A comparison between a HyperTransport packet and a PCI-Express
+	packet.\cite{holden2006latency}}
+\end{figure}
  
 \subsection{Advantages}
 \label{subsec:ht:advant}
+HyperTransport is designed with many key advantages in mind. The interface
+design for HyperTransport 1.x and 2.0 is considered to be inherently reliable.
+This improves throughput as less effort is expended attempting to retransmit
+lost data. It is further improved upon by looking at the bit error ratio.
+HyperTransport consortium claims that the bit-errror-ratio of the system is
+often 10-15 or better.\cite{holden2006latency} This allows the designers to use
+simple error detection instead of complicated and often expensive in terms of either latency or
+bandwidth loss. 
+
+Low latency is a key design advantage that was considered during the development
+of HyperTransport. With that in mind, Priority Request Interleaving is a feature
+specific to HyperTransport that allows for data to be halted and control packets
+to be inserted in the case where a control packet may need to be transmitted
+immediately. This is significant in that PRI can reduce latency considerably,
+usually in response to a cache-miss or similar events\cite{holden2006latency}.
+
+Consider the following event given from the Latency Comparison paper from
+the HyperTransport Consortium:
+
+\quote{While data transfer 1 is underway between peripheral B and the host, the need arises for
+peripheral A to start a data transfer from the host. Without PRI, transfer 2 would have to wait
+until transfer 1 completes and, should transfer 1 be the answer to a cache miss, for instance,
+latency for transfer 2 would become prohibitive. With PRI, a control packet is promptly
+inserted within transfer 1's data stream, instructing the link to initiate data transfer 2 on the
+other link channel concurrently with the completion of data transfer 1. This mechanism,
+unique to HyperTransport technology, greatly reduces latency of HyperTransport-based
+systems.}\cite{holden2006latency}
+
+HyperTransport also does split-phase transactions that allow the I/O device to
+continue on with other tasks. In addition, HyperTransport does not require framing or coding at the physical
+layer, CRC is performed every 512 bytes instead of a packet by packet basis and
+no data link layer packet overhead is present.
 
 \subsection{Disadvantages}
 \label{subsec:ht:disadv}
+Unfortunately, HyperTransport does not support hardware error recovery at the
+link layer. The following is a list of things that HyperTransport cannot do
+well:
 
-\section{PCI Express}
+\begin{itemize}
+  \item Cannot do global device addressing beyond 32 nodes.
+  \item Efficient routing in scalable network topologies
+  \item Scalable congestion management mechanisms
+  \item Dynamic reconfiguration of routing information
+\end{itemize}
+
+The above items are relevant for clustering HyperTransport devices in medium to
+large clusters of processing nodes\cite{duato2009extending}. 
+
+\section{PCI-Express}
 \subsection{Overview}
+PCI-Express was designed by PCISIG as an upgrade to the old PCI and PCI-X
+technologies. As the necessity for higher bandwidth to support I/O devices rose, the need for faster interconnect
+initiated the design of PCI-Express. PCI-Express is a switched, serial
+interconnect technology. PCI-Express serves as a switch environment to a
+plethora of I/O devices ranging from graphics to highspeed I/O devices like
+networking interfaces. The architecture is layered similarly to the OSI
+technology and it is designed to be compatible with copper, optical or other
+forms of media\cite{paulson2003ins}. PCI-Express allows for hot-plugging and
+power management. Originally known as 3GIO, PCI-Express has been in development
+for a long time with PCI-Express 3.0 being the latest standard with PCI-Express
+4.0 under development and slated for 2014/15 specification release date. 
+
+Functionally, PCI and PCI-Express are both bus topologies. PCI is a shared bus
+technology where PCI-Express is a point-to-point bus technology where each
+device has a seperate serial link connecting it to the root complex of the PCI
+Express bus.\cite{budruk2004pci} The structure of a PCI-Express interconnect can
+be observed in Figure \ref{fig:pci:diagram}.
+
+\begin{figure}[!t]
+	\begin{center}
+		\includegraphics[scale=.4]{pciDiagram}
+	\end{center}
+	\caption{PCI Express Architecture as it functions as a switching fabric
+	between highspeed I/O devices.\cite{mayhew2003pci}}
+	\label{fig:pci:diagram}
+\end{figure}
+
+The PCI-Express link between any two devices can consist of one to thirty-two
+lanes. A lane is a set of Tx/Rx Pair of lines connecting two devices, creating
+a full duplex environment in which packets are transported. To expand upon this,
+PCI-Express also allowed the data to be delivered in parallel on connections in
+which more than one lane exists.The current specification, PCI-Express 3.0 can
+do 8.0GT/s or 16GB/s in a sixteen-lane environment. 
+
+PCI-Express is considered to be an ``inside of the box'' I/O solution while
+other technologies such as infiniband can be used to connect highspeed devices
+or cluster interconnects.
+
 \subsection{How does it operate?}
+\label{sub:pci:oper}
+PCI-Express is a multi-drop, parallel bus topology. Each interconnect contains a
+Host bridge and has several endpoints to connect I/O
+devices\cite{bhatt2003creating}. PCI-Express functions on three different layers
+of the OSI model, mapped to the Physical layer, Data link layer and Transaction
+layer. The Data transmission layer is responsible for sending all control
+messages, interrupts and data for the interconnect. Data is interleaved such
+that each successive byte is sent down each successive lane available to the
+connection. This is how the connection between devices is parallelized to
+increase bandwidth between devices. 
+
+The data is encoded in a 8b to 10b transfer
+encoding, creating a twenty percent overhead at the Physical layer. An
+improvement was made in PCI-Express 3.0 such that the data was encoded in a 128b
+to 130b transfer encoding, decreasing the overhead incurred at the Physical
+layer of the protocol.
+
+The data link layer was designed to ensure the reliable deliver of packets
+between two endpoints using ACK/NACK and a sliding window. PCI-Express also
+utilizes a credit-based flow control that always ensures that there is space for
+the packets sent in the next hop of the path.
+
+The Transaction layer utilizes split transactions similar to HyperTransport
+allowing I/O devices to continue other tasks while waiting for read and write
+requests to complete. This layer will generate the read and write requests and
+pass down to the data link layer for the addition of sequence information and
+CRC checking. 
+
+
+
 \subsection{Advantages}
 \subsection{Disadvantages}
 
 \section{Technology Comparisons}
-\subsection{HyperTransport Vs. PCI Express}
+\subsection{HyperTransport Vs. PCI-Express}
 
 \subsection{HyperTransport Vs. QuickPath Interconnect}
 
 
-\subsection{PCI Express Vs. QuickPath Interconnect}
+\subsection{PCI-Express Vs. QuickPath Interconnect}
 
 \subsection{Overall Breakdown}
 

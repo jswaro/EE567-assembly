@@ -39,4 +39,20 @@ J.~Duato, F.~Silla, S.~Yalamanchili, B.~Holden, P.~Miranda, J.~Underhill,
 B.~Holden, ``Latency comparison between hypertransport and pci express in
   communications systems,'' \emph{HyperTransport Consortium}, 2006.
 
+\bibitem{budruk2004pci}
+R.~Budruk, D.~Anderson, and T.~Shanley, \emph{PCI express system
+  architecture}.\hskip 1em plus 0.5em minus 0.4em\relax Addison Wesley
+  Publishing Company, 2004.
+
+\bibitem{mayhew2003pci}
+D.~Mayhew and V.~Krishnan, ``Pci express and advanced switching: evolutionary
+  path to building next generation interconnects,'' in \emph{High Performance
+  Interconnects, 2003. Proceedings. 11th Symposium on}.\hskip 1em plus 0.5em
+  minus 0.4em\relax IEEE, 2003, pp. 21--29.
+
+\bibitem{bhatt2003creating}
+A.~Bhatt, ``Creating a third generation i/o interconnect,''
+  \emph{Intel{\textregistered} Developer Network for PCI Express* Architecture,
+  www. express-lane. org}, pp. 1--11, 2003.
+
 \end{thebibliography}
